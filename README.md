@@ -293,30 +293,6 @@ Create a new variable below the other one called `--building-color2` and give it
   --building-color2: #66cc99;
 }
 
-.bb1a {
-  width: 70%;
-  height: 10%;
-  background-color: var(--building-color1);
-}
-
-.bb1b {
-  width: 80%;
-  height: 10%;
-  background-color: var(--building-color1);
-}
-
-.bb1c {
-  width: 90%;
-  height: 10%;
-  background-color: var(--building-color1);
-}
-
-.bb1d {
-  width: 100%;
-  height: 70%;
-  background-color: var(--building-color1);
-}
-
 .bb2 {
   width: 10%;
   height: 50%;
@@ -350,6 +326,288 @@ Create a new variable below the other ones named `--building-color3` and give it
   --building-color3: #cc6699;
 }
 
+.bb3 {
+  width: 10%;
+  height: 55%;
+  background-color: var(--building-color3, pink);
+}
+```
+> **Step 25** <br>
+That didn't work, because the variables you declared in `.bb1` do not cascade to the `.bb2` and `.bb3` sibling elements. That's just how CSS works. Because of this, variables are often declared in the `:root` selector. This is the highest level selector in CSS; putting your variables there will make them usable everywhere. Add the `:root` selector to the top of your stylesheet, and move all your variable declarations there.
+
+```css
+#styles.css
+:root {
+  --building-color1: #aa80ff;
+  --building-color2: #66cc99;
+  --building-color3: #cc6699;
+}
+
+.bb1 {
+  width: 10%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+```
+> **Step 26** <br>
+Now that you've worked the bugs out and the buildings are the right colors, you can remove the fallback values in the two places they were used. Go ahead and do that now.
+
+```css
+#styles.css
+.bb2 {
+  width: 10%;
+  height: 50%;
+  background-color: var(--building-color2);
+}
+
+.bb3 {
+  width: 10%;
+  height: 55%;
+  background-color: var(--building-color3);
+}
+```
+> **Step 27** <br>
+Create another variable named `--building-color4` and give it a value of `#538cc6`. Make sure it's in the `:root` selector this time. Then use it to fill in the last building.
+
+```css
+#styles.css
+:root {
+  --building-color1: #aa80ff;
+  --building-color2: #66cc99;
+  --building-color3: #cc6699;
+  --building-color4: #538cc6;
+}
+
+.bb4 {
+  width: 11%;
+  height: 58%;
+  background-color: var(--building-color4);
+}
+```
+> **Step 28** <br>
+The background buildings are starting to look pretty good. Create a new `div` below the `background-buildings` element and give it a class of `foreground-buildings`. This will be another container for more buildings.
+
+```html
+#index.html
+    <div class="foreground-buildings"></div>
+```
+> **Step 29** <br>
+You want the foreground buildings container to sit directly on top of the background buildings element. Give it a `width` and `height` of `100%`, set the `position` to `absolute`, and the `top` to `0`. This will make it the same size as the body and move the start of it to the top left corner.
+
+```css
+#styles.css
+.foreground-buildings {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+```
+> **Step 30** <br>
+Nest six `div` elements within `.foreground-buildings` and give them the classes of `fb1` through `fb6` in that order. "fb" stands for "foreground building". These will be six more buildings for the foreground.
+
+```html
+#index.html
+    <div class="foreground-buildings">
+      <div class="fb1"></div>
+      <div class="fb2"></div>
+      <div class="fb3"></div>
+      <div class="fb4"></div>
+      <div class="fb5"></div>
+      <div class="fb6"></div>
+    </div>
+```
+> **Step 31** <br>
+Give the six new elements these `width` and `height` values: `10%` and `60%` to `.fb1`, `10%` and `40%` to `.fb2`, `10%` and `35%` to `.fb3`, `8%` and `45%` to `.fb4`, `10%` and `33%` to `.fb5`, and `9%` and `38%` to `.fb6`.
+
+```css
+#styles.css
+.fb1 {
+  width: 10%;
+  height: 60%;
+}
+
+.fb2 {
+  width: 10%;
+  height: 40%;
+}
+
+.fb3 {
+  width: 10%;
+  height: 35%;
+}
+
+.fb4 {
+  width: 8%;
+  height: 45%;
+}
+
+.fb5 {
+  width: 10%;
+  height: 33%;
+}
+
+.fb6 {
+  width: 9%;
+  height: 38%;
+}
+```
+> **Step 32** <br>
+Add the same `display`, `align-items`, and `justify-content` properties and values to `foreground-buildings` that you used on `background-buildings`. Again, this will use Flexbox to evenly space the buildings across the bottom of their container.
+
+```css
+#styles.css
+.foreground-buildings {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+```
+> **Step 33** <br>
+You should optimize your code. Move the `position` and `top` properties and values from `.foreground-buildings` to .`background-buildings`. Then select both `.background-buildings` and `.foreground-buildings` there, effectively applying those styles to both of the elements. You can use a comma (`,`) to separate selectors like this: `selector1, selector2`.
+
+```css
+#styles.css
+.background-buildings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+
+.foreground-buildings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+
+.background-buildings, .foreground-buildings {
+  position: absolute;
+  top: 0;
+}  
+```
+> **Step 34** <br>
+Now that you did that, you can delete the old `.foreground-buildings` declaration and all of its properties since they aren't needed anymore.
+
+```css
+#styles.css
+.foreground-buildings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+
+/* Delete all */
+```
+> **Step 35** <br>
+The skyline is coming together. Fill in the `background-color` property of the foreground buildings. Use your `--building-color1` variable to fill in `.fb3` and `.fb4`, `--building-color2` for `.fb5`, `--building-color3` for `.fb2` and `.fb6`, and `--building-color4` for `.fb1`.
+
+```css
+#styles.css
+.fb1 {
+  width: 10%;
+  height: 60%;
+  background-color: var(--building-color4);
+}
+
+.fb2 {
+  width: 10%;
+  height: 40%;
+  background-color: var(--building-color3);
+}
+
+.fb3 {
+  width: 10%;
+  height: 35%;
+  background-color: var(--building-color1);
+}
+
+.fb4 {
+  width: 8%;
+  height: 45%;
+  background-color: var(--building-color1);
+}
+
+.fb5 {
+  width: 10%;
+  height: 33%;
+  background-color: var(--building-color2);
+}
+
+.fb6 {
+  width: 9%;
+  height: 38%;
+  background-color: var(--building-color3);
+}
+```
+> **Step 36** <br>
+Squeeze the buildings together again by adding two empty `div` elements within both the top and bottom of the `.foreground-buildings` element, and one more in between `.fb2` and `.fb3`.
+
+```html
+#index.html
+    <div class="foreground-buildings">
+      <div></div>
+      <div></div>
+      <div class="fb1"></div>
+      <div class="fb2"></div>
+      <div></div>
+      <div class="fb3"></div>
+      <div class="fb4"></div>
+      <div class="fb5"></div>
+      <div class="fb6"></div>
+      <div></div>
+      <div></div>
+    </div>
+```
+> **Step 37** <br>
+Move the position of `.fb4` relative to where it is now by adding a `position` of `relative` and `left` of `10%` to it. Do the same for `.fb5` but use `right` instead of `left`. This will cover up the remaining white space in between the buildings.
+
+```css
+#styles.css
+.fb4 {
+  width: 8%;
+  height: 45%;
+  background-color: var(--building-color1);
+  position: relative;
+  left: 10%;
+}
+
+.fb5 {
+  width: 10%;
+  height: 33%;
+  background-color: var(--building-color2);
+  position: relative;
+  right: 10%;
+}
+```
+> **Step 38** <br>
+Your code is starting to get quite long. Add a comment above the `.fb1` class that says `FOREGROUND BUILDINGS - "fb" stands for "foreground building"` to help people understand your code. Above the `.bb1` class add another comment that says `BACKGROUND BUILDINGS - "bb" stands for "background building"`. If you don't remember, comments in CSS look like this: `/* Comment here */`.
+
+```css
+#styles.css
+/*FOREGROUND BUILDINGS - "fb" stands for "foreground building"*/
+
+.bb1 {
+  width: 10%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*BACKGROUND BUILDINGS - "bb" stands for "background building"*/
+
 .bb1a {
   width: 70%;
   height: 10%;
@@ -377,112 +635,26 @@ Create a new variable below the other ones named `--building-color3` and give it
 .bb2 {
   width: 10%;
   height: 50%;
-  background-color: var(--building-color2, green);
+  background-color: var(--building-color2);
 }
 
 .bb3 {
   width: 10%;
   height: 55%;
-  background-color: var(--building-color3, pink);
+  background-color: var(--building-color3);
 }
-```
-> **Step 25** <br>
-That didn't work, because the variables you declared in `.bb1` do not cascade to the `.bb2` and `.bb3` sibling elements. That's just how CSS works. Because of this, variables are often declared in the `:root` selector. This is the highest level selector in CSS; putting your variables there will make them usable everywhere. Add the `:root` selector to the top of your stylesheet, and move all your variable declarations there.
 
-```html
-#index.html
+.bb4 {
+  width: 11%;
+  height: 58%;
+  background-color: var(--building-color4);
+}
 
-```
-> **Step 26** <br>
-Now that you've worked the bugs out and the buildings are the right colors, you can remove the fallback values in the two places they were used. Go ahead and do that now.
-
-```html
-#index.html
-
-```
-> **Step 27** <br>
-Create another variable named `--building-color4` and give it a value of `#538cc6`. Make sure it's in the `:root` selector this time. Then use it to fill in the last building.
-
-```html
-#index.html
-
-```
-> **Step 28** <br>
-The background buildings are starting to look pretty good. Create a new `div` below the `background-buildings` element and give it a class of `foreground-buildings`. This will be another container for more buildings.
-
-```css
-#styles.css
-
-```
-> **Step 29** <br>
-You want the foreground buildings container to sit directly on top of the background buildings element. Give it a `width` and `height` of `100%`, set the `position` to `absolute`, and the `top` to `0`. This will make it the same size as the body and move the start of it to the top left corner.
-
-```css
-#styles.css
-
-```
-> **Step 30** <br>
-Nest six `div` elements within `.foreground-buildings` and give them the classes of `fb1` through `fb6` in that order. "fb" stands for "foreground building". These will be six more buildings for the foreground.
-
-```css
-#styles.css
-
-```
-> **Step 31** <br>
-Give the six new elements these `width` and `height` values: `10%` and `60%` to `.fb1`, `10%` and `40%` to `.fb2`, `10%` and `35%` to `.fb3`, `8%` and `45%` to `.fb4`, `10%` and `33%` to `.fb5`, and `9%` and `38%` to `.fb6`.
-
-```css
-#styles.css
-
-```
-> **Step 32** <br>
-Add the same `display`, `align-items`, and `justify-content` properties and values to `foreground-buildings` that you used on `background-buildings`. Again, this will use Flexbox to evenly space the buildings across the bottom of their container.
-
-```css
-#styles.css
-
-```
-> **Step 33** <br>
-You should optimize your code. Move the `position` and `top` properties and values from `.foreground-buildings` to .`background-buildings`. Then select both `.background-buildings` and `.foreground-buildings` there, effectively applying those styles to both of the elements. You can use a comma (`,`) to separate selectors like this: `selector1, selector2`.
-
-```css
-#styles.css
-
-```
-> **Step 34** <br>
-Now that you did that, you can delete the old `.foreground-buildings` declaration and all of its properties since they aren't needed anymore.
-
-```css
-#styles.css
-
-```
-> **Step 35** <br>
-The skyline is coming together. Fill in the `background-color` property of the foreground buildings. Use your `--building-color1` variable to fill in `.fb3` and `.fb4`, `--building-color2` for `.fb5`, `--building-color3` for `.fb2` and `.fb6`, and `--building-color4` for `.fb1`.
-
-```css
-#styles.css
-
-```
-> **Step 36** <br>
-Squeeze the buildings together again by adding two empty `div` elements within both the top and bottom of the `.foreground-buildings` element, and one more in between `.fb2` and `.fb3`.
-
-```css
-#styles.css
-
-```
-> **Step 37** <br>
-Move the position of `.fb4` relative to where it is now by adding a `position` of `relative` and `left` of `10%` to it. Do the same for `.fb5` but use `right` instead of `left`. This will cover up the remaining white space in between the buildings.
-
-```css
-#styles.css
-
-```
-> **Step 38** <br>
-Your code is starting to get quite long. Add a comment above the `.fb1` class that says `FOREGROUND BUILDINGS - "fb" stands for "foreground building"` to help people understand your code. Above the `.bb1` class add another comment that says `BACKGROUND BUILDINGS - "bb" stands for "background building"`. If you don't remember, comments in CSS look like this: `/* Comment here */`.
-
-```css
-#styles.css
-
+.fb1 {
+  width: 10%;
+  height: 60%;
+  background-color: var(--building-color4);
+}
 ```
 > **Step 39** <br>
 Create a new variable in `:root` called `--window-color1` and give it a value of `black`. This will be a secondary color for the purple buildings.
